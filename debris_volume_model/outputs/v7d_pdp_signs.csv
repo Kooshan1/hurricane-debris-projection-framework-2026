@@ -1,0 +1,31 @@
+feature,p5,p95,pdp_p5,pdp_p95,pdp_range,expected_sign,observed_sign,verdict
+DO,0.0,0.9022,95.579,226.719,131.14,+ (more dev-open -> modest debris),+,OK
+PD,52.9587,2839.9761,76.581,143.829,67.248,+ (more population -> more debris; arch-enforced INC),+,OK
+NumB,0.0,40.0,78.884,143.377,64.493,+ (more buildings -> more debris; arch-enforced INC),+,OK
+MHI,23289.0,88063.0,55.845,116.925,61.08,? (richer areas have more expensive but better-built structures),+,n/a (free)
+DT,0.0,1.0,169.458,110.105,-59.353,+ (more dev-total -> more debris),-,WRONG
+DM,0.0,0.7652,105.586,156.264,50.678,+ (more dev-medium -> more debris),+,OK
+PR,0.1109,0.6447,85.891,134.232,48.341,? (renters vs owners - debris quality vs maintenance trade-off),+,n/a (free)
+RD,0.0,0.0158,77.362,122.161,44.798,+ (more roads -> more developed area -> more debris),+,OK
+ME,-0.0287,7.4653,125.012,82.454,-42.558,- (higher elevation -> less surge -> less debris; arch-enforced DEC),-,OK
+WV_Y,0.0,0.8523,111.483,77.305,-34.178,? (signed water velocity y; either sign physically possible),-,n/a (free)
+ADS,2079.5321,43715.7467,147.562,115.216,-32.346,- (further from seawall -> less surge exposure -> less debris),-,OK
+NumMH,0.0,7.0,91.956,122.045,30.089,+ (more mobile homes (vulnerable) -> more debris; arch-enforced INC),+,OK
+NAS,0.0,126.55,92.019,119.95,27.931,+ (more accessory structures -> more debris; arch-enforced INC),+,OK
+dist_to_coast_m,0.0,3535.5339,118.088,93.113,-24.976,- (further from coast -> less surge -> less debris; arch-enforced DEC),-,OK
+SD_NumB,0.0,13.9711,92.56,116.599,24.039,+ (surge x buildings exposed; arch-enforced INC),+,OK
+WH_NumB,0.0,6.1725,100.686,115.119,14.433,+ (wave x buildings exposed; arch-enforced INC),+,OK
+WV_X,0.0,0.4115,111.109,101.803,-9.306,? (signed water velocity x; either sign physically possible),-,n/a (free)
+TAAS,0.0,40617.05,105.1,112.743,7.643,+ (more accessory area -> more debris; arch-enforced INC),+,OK
+SD,0.0,3.4046,110.419,116.892,6.473,+ (surge depth -> more debris; arch-enforced INC),+,OK
+OHU,546.0,3787.0,108.122,114.327,6.205,+ (more occupied housing -> more debris; arch-enforced INC),+,OK
+WS,0.4248,0.5896,109.236,113.762,4.526,+ (wind steadiness -> more debris; arch-enforced INC),+,OK
+WH,0.0,1.3731,110.67,114.855,4.185,+ (wave height -> more debris; arch-enforced INC),+,OK
+VHU,118.0,3075.0,110.657,114.788,4.131,+ (more vacant housing -> more debris; arch-enforced INC),+,OK
+MF,0.0,1.862,111.251,114.795,3.544,+ (momentum flux -> more debris; arch-enforced INC),+,OK
+NumHU,798.0,4408.0,109.582,112.642,3.06,+ (more housing units -> more debris; arch-enforced INC),+,OK
+OW,0.0,0.9535,112.972,110.646,-2.326,- (more open water -> less land -> less debris),-,OK
+mean_bldg_size_m2,0.0,3502.3,110.415,111.507,1.093,+ (larger buildings -> more debris; arch-enforced INC),+,OK
+MF_NumB,0.0,0.7251,110.542,111.233,0.691,+ (momentum flux x buildings exposed; arch-enforced INC),~0,OK
+WPF_1,0.0,0.0728,111.134,111.163,0.029,+ (failure prob -> more debris; arch-enforced INC),~0,OK
+WPF_2,0.0,0.0793,111.154,111.179,0.025,+ (failure prob -> more debris; arch-enforced INC),~0,OK

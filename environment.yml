@@ -1,0 +1,30 @@
+# Conda environment for the hurricane-debris-projection framework.
+# Versions pinned to the configuration used to produce the published results.
+#   conda env create -f environment.yml
+#   conda activate debris_projection
+name: debris_projection
+channels:
+  - conda-forge
+  - pytorch
+dependencies:
+  - python=3.10
+  - numpy=2.2
+  - pandas=2.3
+  - scipy=1.15
+  - scikit-learn=1.7
+  - matplotlib=3.10
+  - seaborn=0.13
+  - geopandas=1.1
+  - shapely=2.1
+  - pyproj=3.7
+  - fiona=1.10
+  - rasterio=1.4
+  - networkx=3.4
+  - gstools=1.7            # Gaussian random fields / kriging (debris dispersion)
+  - joblib=1.5
+  - pyyaml=6.0
+  - tqdm=4.67
+  - h5py                   # only needed for the raw hazard-extraction stage (Stage 0)
+  - pip
+  - pip:
+      - torch==2.3.1       # CPU build is sufficient for inference; training also runs on CPU

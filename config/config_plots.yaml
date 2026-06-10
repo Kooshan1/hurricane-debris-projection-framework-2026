@@ -1,0 +1,439 @@
+# ----------------------------
+# General Settings
+# ----------------------------
+general_settings:
+  # --- Boundary Shapefiles ---
+  boundary_shapefile_path_tract: '../inputs/debris_impact_data/Tracts_Galveston_County_Without_Bolivar_Peninsula.shp' # REQUIRED for most plots
+  boundary_shapefile_path_grid: '../inputs/shapefiles/Grid_250_Without_Bolivar_Peninsula.shp' # REQUIRED if using output_level: grid
+  boundary_shapefile_path_county: '../inputs/debris_impact_data/galveston_county_border.shp' # County boundary to overlay on all maps
+
+  # --- Map Border Style ---
+  map_border:
+    visible: true
+    line_width: 0.2
+    line_color: 'black'
+    line_style: 'solid'  # Options: 'solid', 'dashed', 'dotted', 'dashdot'
+    zorder: 10  # Places border on top of all other map elements
+
+  # --- Coordinate Reference System ---
+  target_crs: 'EPSG:3857' # Target CRS for all map outputs (Projected CRS recommended)
+
+  # --- Output Directories ---
+  # Filenames will be generated automatically within these directories
+  output_directory_maps: './outputs/figure/generated_maps'
+  output_directory_legends: './outputs/figure/generated_maps/legends'
+
+  # --- Default Figure Settings ---
+  figure_defaults:
+    dpi: 600
+    transparent_background: true
+    figsize: [6, 6] # Default width, height in inches
+    axis_padding_factor: 0.05 # Padding around the *overall boundary extent*
+
+    # --- Default Plotting Styles (can be overridden per plot) ---
+    # Style for polygon features (e.g., CLR, aggregated parameters, grid cells)
+    polygon_line_width: 0.2
+    polygon_edge_color: 'black' # Use 'none' for no edges, or color name/hex
+    polygon_linestyle: 'solid' # Default linestyle for polygons
+
+    # Style for line features (e.g., Network Condition)
+    network_line_width: 0.3
+    # Network line color is determined by the colormap/value
+
+    # Style specific to grid cell output (if different from polygon)
+    grid_line_width: 0.05     # Default if output_level='grid'
+    grid_edge_color: 'grey'  # Default if output_level='grid'
+    grid_linestyle: 'solid'  # Default if output_level='grid'
+
+    # Style for Network Background (Tract Polygons)
+    network_background_visible: true # Plot tract boundary behind network lines?
+    network_background_color: '#FFFFFF' # Fill color for background tracts
+    network_background_edge_color: '#000000' # Edge color for background tracts
+    network_background_line_width: 0.0 # Line width for background tracts
+    network_background_linestyle: 'dashed' # Linestyle for background tracts
+
+  # --- Default Font Settings ---
+  font_defaults:
+    family: 'sans-serif' # e.g., 'serif', 'sans-serif', 'monospace'
+    label_size: 10 # For legend labels
+    tick_size: 8   # For legend ticks
+
+# ----------------------------
+# Data Source Definitions
+# ----------------------------
+data_sources:
+  # ---- Parameter Maps (Input is ALWAYS Grid Shapefiles) ----
+  parameter_shapefile:
+    input_path_template: './outputs/final_debris_volume_output/{hurricane_name}/{year}/V13_NN_all_parameters_nn_model_epoch_100_predictions.shp'
+    # output_level ('tract' or 'grid') defined per plot in plot_definitions
+    aggregation_method: 'mean' # Used only if output_level='tract'. Options: 'sum', 'mean', 'max', 'min'
+    variables:
+      - 'SD'
+      - 'WH'
+      - 'PD'
+      - 'WPF_1'
+      - 'pred_m3'
+      - 'VHU'
+      - 'NumHU'
+
+  # ---- Hazard Maps (Rasters) ----
+  hazard_raster:
+    input_path_template: './outputs/hazard_rasters/{hurricane_name}/{year}/{variable}.tif'
+    variables:
+      - 'max_surge_depth'
+      - 'max_wave_height'
+      - 'inundation_duration'
+      - 'max_wind_velocity'
+      - 'max_wave_velocity'
+      - 'momentum_flux'
+
+  # ---- CLR Maps (from CSV) ----
+  clr:
+    # CLR output is always aggregated to the tract level boundary
+    input_path_template: './outputs/debris_impact_output/monte_carlo_result/result_summary_{hurricane_name}_{year}_700_samples.csv'
+    variables:
+      - 'CLR' # Fixed name for this plot type
+
+  # ---- Network Condition Maps ----
+  network_condition:
+    network_shapefile_path: './outputs/debris_impact_output/monte_carlo_result/Network_Condition_results.shp'
+    input_path_template: './outputs/debris_impact_output/monte_carlo_result/result_network_{hurricane_name}_{year}_700_samples.csv'
+    variables:
+      - 'NetworkCondition' # Fixed name for this plot type
+
+# ----------------------------
+# Plot Definitions
+# ----------------------------
+# Define individual maps. Output paths are generated automatically based on general_settings and these parameters.
+# Make plot_id descriptive as it's used in logging.
+plot_definitions:
+  # ---- Baseline Parameter Example (Tract Aggregation) -----------------------------------------------------------
+  # -----------------------------------------------------------------------------------------------
+  - plot_id: 'debris_baseline_tract'
+    plot_type: 'parameter_shapefile'
+    output_level: 'grid' # Aggregate grid input to tract boundary
+    scenario:
+      hurricane_name: 'fema36'
+      year: 2019
+    variable: 'pred_m3'
+    map_mode: 'baseline'
+    # output_map_path/output_legend_path are generated automatically
+    # Plot style overrides:
+    color_map: 'baseline_oranges_debris'
+    vmin: 0
+    vmax: 5000
+
+  # ---- Projection Parameter Example (Absolute Difference vs Baseline - Tract Aggregation) ----
+  - plot_id: 'debris_projection_difference_tract'
+    plot_type: 'parameter_shapefile'
+    output_level: 'grid'
+    scenario:
+      hurricane_name: 'fema36'
+      year: 2030
+    variable: 'pred_m3'
+    map_mode: 'difference' # Use absolute difference
+    # Baseline definition for comparison (REQUIRED for percent_change/difference)
+    baseline_hurricane: 'fema36'
+    baseline_year: 2019
+    # Plot style overrides:
+    color_map: 'change_prgn_9_r' # Different cmap for difference
+    vmin: -500
+    vmax: 500
+    midpoint: 0
+
+  # ---- Projection Parameter Example (Absolute Difference vs Baseline - Tract Aggregation) ----
+  - plot_id: 'debris_projection_difference_tract'
+    plot_type: 'parameter_shapefile'
+    output_level: 'grid'
+    scenario:
+      hurricane_name: 'fema36'
+      year: 2040
+    variable: 'pred_m3'
+    map_mode: 'difference' # Use absolute difference
+    # Baseline definition for comparison (REQUIRED for percent_change/difference)
+    baseline_hurricane: 'fema36'
+    baseline_year: 2019
+    # Plot style overrides:
+    color_map: 'change_prgn_9_r' # Different cmap for difference
+    vmin: -500
+    vmax: 500
+    midpoint: 0
+
+  # ---- Baseline Hazard Raster Example -----------------------------------------------------------
+  # -----------------------------------------------------------------------------------------------
+  - plot_id: 'surge_baseline'
+    plot_type: 'hazard_raster'
+    scenario:
+      hurricane_name: 'fema36'
+      year: 2019
+    variable: 'max_surge_depth'
+    map_mode: 'baseline'
+    # Plot style overrides:
+    color_map: 'baseline_blues_surge' # Changed cmap example
+    vmin: 0
+    vmax: 5
+    # # Custom border style for this map
+    # map_border:
+    #   line_width: 1.5
+    #   line_color: 'blue'
+    #   line_style: 'solid'
+
+  # ---- Projection Hazard Raster Example (Percent Change) ----
+  - plot_id: 'surge_projection_pct_change'
+    plot_type: 'hazard_raster'
+    scenario:
+      hurricane_name: 'fema36'
+      year: 2030
+    variable: 'max_surge_depth'
+    map_mode: 'percent_change'
+    # Baseline definition for comparison
+    baseline_hurricane: 'fema36'
+    baseline_year: 2019
+    # Plot style overrides:
+    color_map: 'change_prgn_9_r'
+    vmin: -100
+    vmax: 100
+    midpoint: 0
+    # # Custom border style for this map
+    # map_border:
+    #   line_width: 1.0
+    #   line_color: 'black'
+    #   line_style: 'dashed'
+
+  # ---- Projection Hazard Raster Example (Percent Change) ----
+  - plot_id: 'surge_projection_pct_change'
+    plot_type: 'hazard_raster'
+    scenario:
+      hurricane_name: 'fema36'
+      year: 2040
+    variable: 'max_surge_depth'
+    map_mode: 'percent_change'
+    # Baseline definition for comparison
+    baseline_hurricane: 'fema36'
+    baseline_year: 2019
+    # Plot style overrides:
+    color_map: 'change_prgn_9_r'
+    vmin: -100
+    vmax: 100
+    midpoint: 0
+
+  # ---- Baseline CLR Example ---------------------------------------------------------------------
+  # -----------------------------------------------------------------------------------------------
+  - plot_id: 'clr_baseline_tract'
+    plot_type: 'clr'
+    # CLR output is always tract level
+    scenario:
+      hurricane_name: 'fema36'
+      year: 2019
+    variable: 'CLR'
+    map_mode: 'baseline'
+    # Plot style overrides:
+    color_map: 'baseline_reds_clr'
+    vmin: 0
+    vmax: 1
+    edge_color: 'none' # Override edge color
+
+    # ---- Projection CLR Example (Difference) ----
+  - plot_id: 'clr_projection_pct_difference'
+    plot_type: 'clr'
+    # CLR output is always tract level
+    scenario:
+      hurricane_name: 'fema36'
+      year: 2030 # Example different year
+    variable: 'CLR'
+    map_mode: 'difference'
+    # Baseline definition for comparison
+    baseline_hurricane: 'fema36'
+    baseline_year: 2019
+    # Plot style overrides:
+    color_map: 'change_prgn_9_r'
+    vmin: -0.1
+    vmax: 0.1
+    midpoint: 0
+    line_width: 0.1 # Override line width
+
+    # ---- Projection CLR Example (Difference) ----
+  - plot_id: 'clr_projection_pct_difference'
+    plot_type: 'clr'
+    # CLR output is always tract level
+    scenario:
+      hurricane_name: 'fema36'
+      year: 2040 # Example different year
+    variable: 'CLR'
+    map_mode: 'difference'
+    # Baseline definition for comparison
+    baseline_hurricane: 'fema36'
+    baseline_year: 2019
+    # Plot style overrides:
+    color_map: 'change_prgn_9_r'
+    vmin: -0.1
+    vmax: 0.1
+    midpoint: 0
+    line_width: 0.1 # Override line width
+
+  # ---- Baseline Network Condition Example -------------------------------------------------------
+  # -----------------------------------------------------------------------------------------------
+  - plot_id: 'network_baseline'
+    plot_type: 'network_condition'
+    scenario:
+      hurricane_name: 'fema36'
+      year: 2019
+    variable: 'NetworkCondition'
+    map_mode: 'baseline'
+    # Plot style overrides:
+    color_map: 'baseline_orrd_network'
+    vmin: 0
+    vmax: 1
+    line_width: 0.1 # Override default network line width
+    # Override network background style if needed:
+    # network_background_visible: false
+
+  # ---- Projection Network Condition Example (Difference) ----
+  - plot_id: 'network_projection_difference'
+    plot_type: 'network_condition'
+    scenario:
+      hurricane_name: 'fema36'
+      year: 2030
+    variable: 'NetworkCondition'
+    map_mode: 'difference' # Show absolute difference
+    # Baseline definition for comparison
+    baseline_hurricane: 'fema36'
+    baseline_year: 2019
+    # Plot style overrides:
+    color_map: 'change_prgn_9_r'
+    vmin: -0.2
+    vmax: 0.2
+    midpoint: 0
+    line_width: 0.1 # Thicker lines example
+#    network_background_color: '#FAFAFA' # Lighter background example
+#    network_background_edge_color: '#CCCCCC'
+
+  # ---- Projection Network Condition Example (Difference) ----
+  - plot_id: 'network_projection_difference'
+    plot_type: 'network_condition'
+    scenario:
+      hurricane_name: 'fema36'
+      year: 2040
+    variable: 'NetworkCondition'
+    map_mode: 'difference' # Show absolute difference
+    # Baseline definition for comparison
+    baseline_hurricane: 'fema36'
+    baseline_year: 2019
+    # Plot style overrides:
+    color_map: 'change_prgn_9_r'
+    vmin: -0.2
+    vmax: 0.2
+    midpoint: 0
+    line_width: 0.1 # Thicker lines example
+#    network_background_color: '#FAFAFA' # Lighter background example
+#    network_background_edge_color: '#CCCCCC'
+
+
+############################## Other Examples ##############################
+
+#  # ---- Projection Parameter Example (Percent Change vs Baseline - Tract Aggregation) ----
+#  - plot_id: 'debris_projection_pct_change_tract'
+#    plot_type: 'parameter_shapefile'
+#    output_level: 'tract' # Aggregate grid input to tract boundary
+#    scenario:
+#      hurricane_name: 'fema36'
+#      year: 2030
+#    variable: 'pred_m3'
+#    map_mode: 'percent_change'
+#    # Baseline definition for comparison (REQUIRED for percent_change/difference)
+#    baseline_hurricane: 'fema36'
+#    baseline_year: 2019
+#    # Plot style overrides:
+#    color_map: 'change_prgn_9_r'
+#    vmin: -200
+#    vmax: 200
+#    midpoint: 0
+
+#   # ---- Baseline Parameter Example (Grid Output) ----
+#  - plot_id: 'debris_baseline_grid'
+#    plot_type: 'parameter_shapefile'
+#    output_level: 'grid' # Show input grid clipped by grid boundary
+#    scenario:
+#      hurricane_name: 'fema36'
+#      year: 2019
+#    variable: 'pred_m3'
+#    map_mode: 'baseline'
+#    # Plot style overrides:
+#    color_map: 'baseline_oranges_debris'
+#    vmin: 0
+#    vmax: 5000
+#    grid_line_width: 0.05
+#    # Uses grid_line_width/grid_edge_color defaults unless overridden here
+#
+#   # ---- Projection Parameter Example (Percent Change vs Baseline - Grid Output) ----
+#  - plot_id: 'debris_projection_pct_change_grid'
+#    plot_type: 'parameter_shapefile'
+#    output_level: 'grid' # Aggregate grid input to tract boundary
+#    scenario:
+#      hurricane_name: 'fema36'
+#      year: 2030
+#    variable: 'pred_m3'
+#    map_mode: 'percent_change'
+#    # Baseline definition for comparison (REQUIRED for percent_change/difference)
+#    baseline_hurricane: 'fema36'
+#    baseline_year: 2019
+#    # Plot style overrides:
+#    color_map: 'change_prgn_9_r'
+#    vmin: -200
+#    vmax: 200
+#    midpoint: 0
+#
+#  # ---- Projection Parameter Example (Absolute Difference vs Baseline - Grid Output) ----
+#  - plot_id: 'debris_projection_difference_grid'
+#    plot_type: 'parameter_shapefile'
+#    output_level: 'grid'
+#    scenario:
+#      hurricane_name: 'fema36'
+#      year: 2030
+#    variable: 'pred_m3'
+#    map_mode: 'difference' # Use absolute difference
+#    # Baseline definition for comparison (REQUIRED for percent_change/difference)
+#    baseline_hurricane: 'fema36'
+#    baseline_year: 2019
+#    # Plot style overrides:
+#    color_map: 'change_prgn_9_r' # Different cmap for difference
+#    vmin: -500
+#    vmax: 500
+#    midpoint: 0
+
+#  # ---- Projection CLR Example (Percent Change) ----
+#  - plot_id: 'clr_projection_pct_change_tract'
+#    plot_type: 'clr'
+#    # CLR output is always tract level
+#    scenario:
+#      hurricane_name: 'fema36'
+#      year: 2030 # Example different year
+#    variable: 'CLR'
+#    map_mode: 'percent_change'
+#    # Baseline definition for comparison
+#    baseline_hurricane: 'fema36'
+#    baseline_year: 2019
+#    # Plot style overrides:
+#    color_map: 'change_prgn_9_r'
+#    vmin: -50
+#    vmax: 500 # Example asymmetric range
+#    midpoint: 0
+#    line_width: 0.1 # Override line width
+
+#  # ---- Projection Network Condition Example (Percent Change) ----
+#  - plot_id: 'network_projection_pct_change'
+#    plot_type: 'network_condition'
+#    scenario:
+#      hurricane_name: 'fema36'
+#      year: 2030
+#    variable: 'NetworkCondition'
+#    map_mode: 'percent_change' # Show absolute difference
+#    # Baseline definition for comparison
+#    baseline_hurricane: 'fema36'
+#    baseline_year: 2019
+#    # Plot style overrides:
+#    color_map: 'change_prgn_9_r'
+#    vmin: -100
+#    vmax: 100
+#    midpoint: 0
+#    line_width: 0.1 # Thicker lines example

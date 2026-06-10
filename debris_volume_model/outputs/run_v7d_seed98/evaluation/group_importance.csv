@@ -1,0 +1,5 @@
+group,n_features,importance_mean,importance_std
+Built environment,5,47.76335144042969,2.685728879892863
+Natural environment,8,36.52101287841797,1.5867620336805082
+Human / socioeconomic,6,25.97197265625,2.5493968293361657
+Multi-hazard intensity,8,1.3772537231445312,0.8263128579427184

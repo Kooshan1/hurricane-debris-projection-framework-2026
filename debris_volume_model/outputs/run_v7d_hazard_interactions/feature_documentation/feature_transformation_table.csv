@@ -1,0 +1,38 @@
+feature,original_group,description,v3_status,v3_group,v3_direction,rationale
+SD,Multi-hazard,Maximum surge depth (m),KEPT,monotone-INC,non-decreasing,more surge -> more inundation/buoyancy damage
+WH,Multi-hazard,Maximum significant wave height (m),KEPT,monotone-INC,non-decreasing,more wave height -> more wave damage
+WaveD,Multi-hazard,Mean wave direction (deg),DROPPED,n/a,n/a,Storm-track-specific (Hurricane-Ike-Galveston only); does not generalize
+WV_X,Multi-hazard,"Maximum wave velocity, x-component (m/s)",KEPT,free,unconstrained,directional / categorical / sign-dependent
+WV_Y,Multi-hazard,"Maximum wave velocity, y-component (m/s)",KEPT,free,unconstrained,directional / categorical / sign-dependent
+WindD,Multi-hazard,Mean wind direction (deg),DROPPED,n/a,n/a,Storm-track-specific (Hurricane-Ike-Galveston only); does not generalize
+WS,Multi-hazard,Mean wind speed (m/s),KEPT,monotone-INC,non-decreasing,more wind speed -> more wind damage
+MF,Multi-hazard,Multi-hazard damage factor (-),KEPT,monotone-INC,non-decreasing,multi-hazard damage factor; higher -> more damage
+NumB,Built env,Number of buildings (-),KEPT,monotone-INC,non-decreasing,more buildings -> more debris sources
+TBFA,Built env,Total building footprint area (m^2),DROPPED,n/a,n/a,r=0.74 with NumB; opposite-sign PDPs in original NN. Replaced with mean_bldg_size_m2
+NAS,Built env,Number of accessory structures (-),KEPT,monotone-INC,non-decreasing,more accessory structures -> more debris sources
+TAAS,Built env,Total area of accessory structures (m^2),KEPT,monotone-INC,non-decreasing,larger accessory structure area -> more debris
+NumMH,Built env,Number of mobile homes (-),KEPT,monotone-INC,non-decreasing,more mobile homes -> more vulnerable debris sources
+WPF_1,Built env,Weighted performance factor 1 (-),KEPT,monotone-INC,non-decreasing,performance factor; higher vulnerability -> more debris
+WPF_2,Built env,Weighted performance factor 2 (-),KEPT,monotone-INC,non-decreasing,performance factor; higher vulnerability -> more debris
+OW,Natural env,Open-water fraction (-),KEPT,free,unconstrained,directional / categorical / sign-dependent
+DO,Natural env,Developed open-space fraction (-),KEPT,free,unconstrained,directional / categorical / sign-dependent
+DM,Natural env,Developed medium intensity fraction (-),KEPT,free,unconstrained,directional / categorical / sign-dependent
+DT,Natural env,Developed high intensity fraction (-),KEPT,free,unconstrained,directional / categorical / sign-dependent
+RD,Natural env,Road density (km/km^2),KEPT,free,unconstrained,directional / categorical / sign-dependent
+ME,Natural env,Minimum elevation (m),KEPT,monotone-DEC,non-increasing,higher elevation -> less inundation -> less debris
+ADS,Natural env,Distance to protective structures (m),KEPT,free,unconstrained,directional / categorical / sign-dependent
+UL,Natural env,Urban land fraction (-),DROPPED,n/a,n/a,Urban-lag is highly redundant with DT (r=0.934) and DO (r=0.765); dropped to break the multicollinearity that drove DT's anomalous negative PDP slope in v4b/v4c heritage.
+PD,Socioeconomic,Population density (1/km^2),KEPT,monotone-INC,non-decreasing,higher population density -> denser development
+NumH,Socioeconomic,Number of households (-),DROPPED,n/a,n/a,Numerically identical to OHU in LCC inputs; redundant
+MHI,Socioeconomic,Median household income (USD),KEPT,free,unconstrained,directional / categorical / sign-dependent
+NumHU,Socioeconomic,Number of housing units (-),KEPT,monotone-INC,non-decreasing,more housing units -> more building stock at risk
+OHU,Socioeconomic,Owner-occupied housing units (-),KEPT,monotone-INC,non-decreasing,more occupied housing units -> more building stock at risk
+VHU,Socioeconomic,Vacant housing units (-),KEPT,monotone-INC,non-decreasing,more vacant housing units -> more poorly-maintained building stock
+PR,Socioeconomic,Poverty rate (-),KEPT,free,unconstrained,directional / categorical / sign-dependent
+centroid_x,Spatial,Cell-centroid longitude (deg),DROPPED,n/a,n/a,Region-specific position memorisation; not physical
+centroid_y,Spatial,Cell-centroid latitude (deg),DROPPED,n/a,n/a,Region-specific position memorisation; not physical
+mean_bldg_size_m2,n/a (added),"TBFA / max(NumB, 1) -- mean building size (m^2)",ADDED (engineered),monotone-INC,non-decreasing,larger buildings -> more debris per damaged unit
+dist_to_coast_m,n/a (added),Distance from cell centroid to nearest open-water cell (m),ADDED (engineered),monotone-DEC,non-increasing,further from coast -> less surge exposure
+SD_NumB,n/a (added),SD * NumB -- surge depth times number of buildings (exposed stock x hazard),ADDED (engineered),monotone-INC,non-decreasing,amount of building stock exposed to surge depth -> more debris
+WH_NumB,n/a (added),WH * NumB -- wave height times number of buildings,ADDED (engineered),monotone-INC,non-decreasing,amount of building stock exposed to wave height -> more debris
+MF_NumB,n/a (added),MF * NumB -- momentum flux times number of buildings,ADDED (engineered),monotone-INC,non-decreasing,amount of building stock exposed to momentum flux -> more debris

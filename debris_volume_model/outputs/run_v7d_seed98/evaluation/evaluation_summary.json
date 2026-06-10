@@ -1,0 +1,142 @@
+{
+  "best_epoch": 212,
+  "calibration_factor": 1.4192656312352037,
+  "test_metrics_raw": {
+    "mae": 102.51134490966797,
+    "rmse": 422.188254070385,
+    "r2": 0.5026634931564331,
+    "mean_pred": 104.08349609375,
+    "mean_true": 155.43836975097656
+  },
+  "test_metrics_calibrated": {
+    "mae": 113.62798309326172,
+    "rmse": 413.2115832113132,
+    "r2": 0.5235876441001892,
+    "mean_pred": 147.72213745117188,
+    "mean_true": 155.43836975097656
+  },
+  "test_bootstrap_ci_mae_95": [
+    98.1972448348999,
+    129.96508331298827
+  ],
+  "test_bootstrap_ci_r2_95": [
+    0.40706374645233157,
+    0.6178010329604149
+  ],
+  "top10_feature_importance": [
+    {
+      "feature": "DT",
+      "importance_mean": 24.15125274658203,
+      "importance_std": 0.922212066290861
+    },
+    {
+      "feature": "PD",
+      "importance_mean": 16.594631958007813,
+      "importance_std": 1.7765347994932394
+    },
+    {
+      "feature": "MHI",
+      "importance_mean": 13.408161163330078,
+      "importance_std": 1.6342828220122674
+    },
+    {
+      "feature": "ADS",
+      "importance_mean": 12.794780731201172,
+      "importance_std": 1.280142900634303
+    },
+    {
+      "feature": "DM",
+      "importance_mean": 11.03188247680664,
+      "importance_std": 0.7054317686824152
+    },
+    {
+      "feature": "PR",
+      "importance_mean": 9.408035278320312,
+      "importance_std": 1.535740080705185
+    },
+    {
+      "feature": "DO",
+      "importance_mean": 7.8817802429199215,
+      "importance_std": 0.9597829289266132
+    },
+    {
+      "feature": "SD_NumB",
+      "importance_mean": 6.800901794433594,
+      "importance_std": 1.2435575387116413
+    },
+    {
+      "feature": "ME",
+      "importance_mean": 3.0648902893066405,
+      "importance_std": 0.40791380907297753
+    },
+    {
+      "feature": "RD",
+      "importance_mean": 2.2218864440917967,
+      "importance_std": 1.3604356452540254
+    }
+  ],
+  "group_importance": [
+    {
+      "group": "Built environment",
+      "n_features": 5,
+      "importance_mean": 47.76335144042969,
+      "importance_std": 2.685728879892863
+    },
+    {
+      "group": "Natural environment",
+      "n_features": 8,
+      "importance_mean": 36.52101287841797,
+      "importance_std": 1.5867620336805082
+    },
+    {
+      "group": "Human / socioeconomic",
+      "n_features": 6,
+      "importance_mean": 25.97197265625,
+      "importance_std": 2.5493968293361657
+    },
+    {
+      "group": "Multi-hazard intensity",
+      "n_features": 8,
+      "importance_mean": 1.3772537231445312,
+      "importance_std": 0.8263128579427184
+    }
+  ],
+  "training_args": {
+    "csv": "data/engineered_input_2026_05_04_no_outlier_v7d.csv",
+    "manifest": "data/feature_groups_v7d.json",
+    "out_dir": "outputs/run_v7d_seed98",
+    "epochs": 400,
+    "batch_size": 64,
+    "lr": 0.0005,
+    "weight_decay": 0.0001,
+    "seed": 98,
+    "patience": 40,
+    "lr_patience": 8,
+    "device": "cuda",
+    "wandb_project": "NSF_Debris_Project_Revision_Test",
+    "wandb_key": null,
+    "run_name": "physics_v7d_seed98",
+    "log_branch_stats": true,
+    "no_wandb": false,
+    "log1p_target": false,
+    "sqrt_sample_weight": false,
+    "loss": "huber",
+    "tweedie_power": 1.5,
+    "h_inc": [
+      32,
+      16
+    ],
+    "h_dec": [
+      16,
+      8
+    ],
+    "h_free": [
+      32,
+      16
+    ],
+    "dropout": 0.1,
+    "output_activation": "softplus",
+    "smart_bias_init": false,
+    "grad_clip": 10.0
+  }
+}

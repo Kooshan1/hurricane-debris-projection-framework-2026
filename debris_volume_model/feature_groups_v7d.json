@@ -1,0 +1,33 @@
+{
+  "monotone_inc": [
+    "SD", "WH", "WS", "MF", "WPF_1", "WPF_2",
+    "NumB", "mean_bldg_size_m2", "NAS", "TAAS", "NumMH",
+    "NumHU", "OHU", "VHU", "PD",
+    "SD_NumB", "WH_NumB", "MF_NumB"
+  ],
+  "monotone_dec": ["ME", "dist_to_coast_m"],
+  "free": [
+    "WV_X", "WV_Y", "OW", "DO", "DM", "DT", "RD", "ADS", "MHI", "PR"
+  ],
+  "all_features": [
+    "SD", "WH", "WS", "MF", "WPF_1", "WPF_2",
+    "NumB", "mean_bldg_size_m2", "NAS", "TAAS", "NumMH",
+    "NumHU", "OHU", "VHU", "PD",
+    "SD_NumB", "WH_NumB", "MF_NumB",
+    "ME", "dist_to_coast_m",
+    "WV_X", "WV_Y", "OW", "DO", "DM", "DT", "RD", "ADS", "MHI", "PR"
+  ],
+  "target": "volume_m3",
+  "n_features": 30,
+  "csv_file": "engineered_input_2026_05_04_no_outlier_v7d.csv",
+  "feature_dropped": ["centroid_x", "centroid_y", "TBFA", "NumH", "WaveD", "WindD", "UL"],
+  "feature_added": ["mean_bldg_size_m2", "dist_to_coast_m", "SD_NumB", "WH_NumB", "MF_NumB"],
+  "rationale": [
+    "v7d = v6 + 3 hazard x building interaction features.",
+    "SD_NumB = SD * NumB: surge depth times number of buildings (captures 'amount of building stock exposed to surge').",
+    "WH_NumB = WH * NumB: wave height times number of buildings.",
+    "MF_NumB = MF * NumB: momentum flux times number of buildings.",
+    "All 3 added to monotone-INC: more hazard x more buildings -> more debris (positive monotone).",
+    "Hypothesis: explicit interaction features should boost the relative importance of hazard variables in the prediction; v6 currently has multi-hazard group importance = 12.6 m^3 (lowest of all 4 feature groups)."
+  ]
+}

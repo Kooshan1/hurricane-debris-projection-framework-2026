@@ -1,0 +1,17 @@
+hurricane_key_word: 'ike'
+hurricane_year: '2008'
+folder_path: "<PATH_TO_RAW_ADCIRC_SWAN_HDF5_BUNDLES>"  # set to your local copy of the raw hazard-simulation HDF5 bundles
+results_file: "results.hdf5"
+points_file: "greater_houston_points.hdf5"
+csv_file_path: "./outputs/intensity_measures/{hurricane_key_word}/{hurricane_year}/intensity_measures_data.csv"
+grid_shapefile: "./inputs/shapefiles/Grid_250.shp"  # 250 m analysis grid (geometry also embedded in the published prediction shapefiles)
+output_shapefile_intensity: "./outputs/pf_polygon/{hurricane_key_word}/{hurricane_year}/Grid_250_with_intensity_measures.shp"
+output_shapefile_final: "./outputs/final_polygons_with_all_parameters/{hurricane_key_word}/{hurricane_year}/Grid_250_all_parameters_Kooshan.shp"
+building_damage_shapefile: "./outputs/damage_results/{hurricane_key_word}/{hurricane_year}/building_damage_result.shp"
+hazard_raster_folder: "./outputs/hazard_rasters/{hurricane_key_word}/{hurricane_year}"
+x_res: 0.001
+y_res: 0.001
+merged_csv_path: './outputs/merged_dataset/merged_data_with_geometry.csv'
+additional_csv_path: './inputs/land_cover_scenarios/MM_Input{hurricane_year}F.csv'  # projected land-cover/exposure features (see data repository)
+final_csv_path: './outputs/final_input_for_debris_volume_model/{hurricane_key_word}/{hurricane_year}/final_input_parameters.csv'
+final_shp_path: './outputs/final_input_for_debris_volume_model/{hurricane_key_word}/{hurricane_year}/final_input_parameters.shp'
