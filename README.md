@@ -30,13 +30,15 @@ repository root; both locations are `.gitignore`d):
 |---------------------------------------|-----------------------------------------------------|
 | Scenario model-input tables           | `outputs/final_input_for_debris_volume_model/<storm>/<year>/final_input_parameters.csv` |
 | Debris-volume training target         | `outputs/debris_volume/Grid_250_with_debris_volume.shp` |
-| v7d debris-volume prediction shapefiles | `inputs/predictions_v7d/<storm>/<year>/V14_physics_v7d_predictions.shp` |
+| v7d debris-volume predictions (CSV + shapefile) | `outputs/final_debris_volume_output/<storm>/<year>/V14_physics_v7d_predictions.csv` (figure scripts) and `inputs/predictions_v7d/<storm>/<year>/V14_physics_v7d_predictions.shp` (Monte Carlo) |
 | Network / facilities / tracts shapefiles | `inputs/debris_impact_data/...` |
 | Land-cover scenario features (LCM)    | `inputs/land_cover_scenarios/MM_Input<year>F.csv`   |
 | Monte Carlo result tables (1,000 samples) | `debris_volume_model/outputs/v7d_runs/`          |
 
 Storm/year codes: storms `ike`, `fema33`, `fema36`; file years `2019`
-(displayed as the 2020 baseline in the paper), `2030`, `2040`.
+(displayed as the 2020 baseline in the paper), `2030`, `2040`. Scenario
+scoring (`score_all_scenarios.py`) additionally expects the Ike training-time
+inputs at `outputs/final_input_for_debris_volume_model/ike/2008/`.
 
 ## Environment
 

@@ -22,9 +22,14 @@ dependencies:
   - networkx=3.4
   - gstools=1.7            # Gaussian random fields / kriging (debris dispersion)
   - joblib=1.5
+  - loky                   # reusable process pools (geoprocessing / network analysis)
+  - rasterstats            # zonal statistics (hazard-raster aggregation)
+  - rioxarray              # raster I/O for geoprocessing
+  - utm                    # UTM coordinate conversions
   - pyyaml=6.0
   - tqdm=4.67
   - h5py                   # only needed for the raw hazard-extraction stage (Stage 0)
   - pip
   - pip:
       - torch==2.3.1       # CPU build is sufficient for inference; training also runs on CPU
+      - tqdm-joblib        # progress bars for the joblib-parallel Monte Carlo
