@@ -1,52 +1,42 @@
-# Revision-figure generation scripts
+# Figure-generation scripts
 
-These scripts post-process the existing Monte-Carlo and trained-NN outputs
-into the new figures called for by the major-revision plan
-(`prompts/responses/revision_plan_*.md` in the paper repository).
-
-**No ADCIRC-SWAN, no LCM, and no NN re-training are performed.** Only the
-already-saved 700-sample CSVs, the 250-m grid shapefiles, the hazard
-rasters, and the saved NN checkpoint are read.
+These scripts post-process the published Monte Carlo results and
+debris-volume predictions into the manuscript and supplementary figures.
+No hazard simulation, land-cover modeling, or model training is performed —
+only the published result tables, the 250 m grid shapefiles, and the saved
+model checkpoint are read (see the root README's data-staging table).
 
 ## Order to run
 
-```powershell
-$py = "python"   # use the conda env from environment.yml
-cd "C:\...\NSF_Debris_Project"
-
-& $py figure_generation\01_compute_uncertainty_metrics.py
-& $py figure_generation\02_make_uncertainty_maps.py
-& $py figure_generation\03_make_trajectory_plot.py
-& $py figure_generation\04_make_amplification_plot.py
-& $py figure_generation\05_make_box_violin.py
-& $py figure_generation\06_make_nn_sensitivity.py
-& $py figure_generation\07_make_elasticity_map.py
+```bash
+python figure_generation/01_compute_uncertainty_metrics.py
+python figure_generation/02_make_uncertainty_maps.py
+python figure_generation/03_make_trajectory_plot.py
+python figure_generation/04_make_amplification_plot.py
+python figure_generation/05_make_box_violin.py
+python figure_generation/07_make_elasticity_map.py
+python figure_generation/08_make_feature_importance.py
+python figure_generation/09_make_dev_cluster_diagnostics.py
 ```
 
-`01` writes derived per-tract / per-link metric CSVs into
-`outputs/debris_impact_output/monte_carlo_result/derived_uncertainty/`.
-Steps `02`-`07` consume those derived CSVs (or the original artefacts) and
-write PNG building blocks into
-`outputs/figure/paper_figures/<artefact>/`. See the README in that
-folder for the figure ID-to-file mapping.
+`01` derives per-tract / per-link metric CSVs from the Monte Carlo sample
+tables; the later steps consume those derived CSVs (or the published
+artefacts directly) and write PNG building blocks into
+`outputs/figure/paper_figures/<artefact>/`. `make_clr_vector_panels.py`
+builds the merged vector/raster map panels of the supplement, and the
+repository-root `generate_paper_map_figures.py` regenerates the map-style
+figures (debris volume, road closure, CLR, surge).
 
 ## Style conformance
 
-`_style.py` mirrors the colormaps, font, and rendering choices used by
-`utils/PlotGenerator.py` and `utils/clr_summary_plots.py`, so the new
-figures are visually interchangeable with the existing paper figures.
-Maps are saved with hidden axes and no titles; legends are saved as
-separate horizontal-colorbar PNGs. The user finalises composition (panel
-labels, titles, legend placement) in Inkscape.
-
-## Display vs file year
-
-The on-disk files use 2019 for the baseline scenarios; the paper reports
-this as 2020. The mapping `2020 → 2019, 2030 → 2030, 2040 → 2040` is
-defined once in `_style.YEAR_DISPLAY_TO_FILE` and used by all scripts.
-All output filenames use the **display year** (2020 / 2030 / 2040).
+`_style.py` centralizes the colormaps, fonts (STIX Two Text), DPI, scenario
+codes (storms ike / fema33 / fema36; years 2020 / 2030 / 2040), and shared
+paths, so every figure is visually consistent. Maps are saved with hidden
+axes and no titles; legends are saved as separate horizontal-colorbar PNGs.
+Final panel composition (labels, titles, legend placement) is done in a
+vector-graphics editor.
 
 ## Environment
 
-Tested with the `2026_debris_prediction` conda env (PyTorch 2.3.1,
-GeoPandas 1.1.2, scikit-learn 1.7.2, rasterio, joblib, pyyaml, matplotlib).
+Use the pinned conda environment from the repository root
+(`environment.yml`).

@@ -11,7 +11,7 @@ Reads:
     outputs/debris_volume/Grid_250_with_debris_volume.shp
 
 Writes:
-    debris_volume_model/engineered_input_<TIMESTAMP>.csv
+    debris_volume_model/training_data.csv
 """
 from __future__ import annotations
 
@@ -143,7 +143,7 @@ def main():
                                           "centroid_x_utm_m", "centroid_y_utm_m"]
     out = merged[out_cols].copy()
     timestamp = datetime.now().strftime("%Y_%m_%d")
-    out_path = THIS_DIR / f"engineered_input_{timestamp}.csv"
+    out_path = THIS_DIR / "training_data.csv"
     out.to_csv(out_path, index=False)
     print(f"\nWrote engineered CSV: {out_path}")
     print(f"  rows: {len(out)}, columns: {len(out.columns)}")

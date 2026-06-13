@@ -22,7 +22,7 @@ import pandas as pd
 THIS_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(THIS_DIR))
 from _style import (DPI, FIG_WIDTH_SINGLE, FONT_SIZE_NORMAL, FONT_SIZE_SMALL,
-                    HURRICANES, HURRICANE_LABELS, MC_DIR_700,
+                    HURRICANES, HURRICANE_LABELS, MC_DIR,
                     OUTPUTS_ROOT, REVISION_FIG_ROOT, YEAR_DISPLAY_TO_FILE,
                     MidpointNormalize, boundary_extent, ensure_font,
                     load_county_gdf, load_tract_gdf, make_merged_map_panel,
@@ -36,7 +36,7 @@ SENS_VLIM = 1.0
 
 
 def _tract_mean_clr(storm: str, file_year: int, tract_gdf: gpd.GeoDataFrame) -> pd.DataFrame:
-    csv = MC_DIR_700 / f"result_summary_{storm}_{file_year}_v7d_seeds0-999.csv"
+    csv = MC_DIR / f"result_summary_{storm}_{file_year}_seeds0-999.csv"
     df = pd.read_csv(csv)
     df = df.rename(columns={df.columns[0]: "FID"})
     df["FID"] = df["FID"].astype(np.int64)
@@ -47,7 +47,7 @@ def _tract_mean_clr(storm: str, file_year: int, tract_gdf: gpd.GeoDataFrame) -> 
 
 def _tract_mean_surge(storm: str, file_year: int, tract_gdf: gpd.GeoDataFrame) -> pd.DataFrame:
     shp = (OUTPUTS_ROOT / "final_debris_volume_output" / storm / str(file_year)
-           / "V14_physics_v7d_predictions.shp")
+           / "debris_volume_predictions.shp")
     grid = gpd.read_file(shp)
     if str(grid.crs).lower() != str(tract_gdf.crs).lower():
         grid = grid.to_crs(tract_gdf.crs)

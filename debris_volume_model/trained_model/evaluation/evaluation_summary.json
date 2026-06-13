@@ -1,0 +1,142 @@
+{
+  "best_epoch": 243,
+  "calibration_factor": 1.481969031017004,
+  "test_metrics_raw": {
+    "mae": 93.31375122070312,
+    "rmse": 346.7413931880646,
+    "r2": 0.647118330001831,
+    "mean_pred": 111.34896087646484,
+    "mean_true": 161.1262664794922
+  },
+  "test_metrics_calibrated": {
+    "mae": 101.66864776611328,
+    "rmse": 338.6085613396389,
+    "r2": 0.663477897644043,
+    "mean_pred": 165.0157012939453,
+    "mean_true": 161.1262664794922
+  },
+  "test_bootstrap_ci_mae_95": [
+    89.65440940856934,
+    114.13440208435058
+  ],
+  "test_bootstrap_ci_r2_95": [
+    0.5761687830090523,
+    0.7339791283011436
+  ],
+  "top10_feature_importance": [
+    {
+      "feature": "DT",
+      "importance_mean": 48.55002899169922,
+      "importance_std": 1.292343351064487
+    },
+    {
+      "feature": "DO",
+      "importance_mean": 29.032740783691406,
+      "importance_std": 1.1581065904969094
+    },
+    {
+      "feature": "MHI",
+      "importance_mean": 21.63266372680664,
+      "importance_std": 2.7914587456113242
+    },
+    {
+      "feature": "ADS",
+      "importance_mean": 16.79129409790039,
+      "importance_std": 1.9789738715143856
+    },
+    {
+      "feature": "DM",
+      "importance_mean": 14.950682067871094,
+      "importance_std": 1.539043523359369
+    },
+    {
+      "feature": "PD",
+      "importance_mean": 14.48656005859375,
+      "importance_std": 0.8052857668641971
+    },
+    {
+      "feature": "PR",
+      "importance_mean": 12.050980377197266,
+      "importance_std": 2.4713875518126804
+    },
+    {
+      "feature": "SD_NumB",
+      "importance_mean": 8.568256378173828,
+      "importance_std": 0.8374843493188042
+    },
+    {
+      "feature": "ME",
+      "importance_mean": 4.910244750976562,
+      "importance_std": 0.6083603528740725
+    },
+    {
+      "feature": "OW",
+      "importance_mean": 3.0318374633789062,
+      "importance_std": 0.5772415041216713
+    }
+  ],
+  "group_importance": [
+    {
+      "group": "Built environment",
+      "n_features": 5,
+      "importance_mean": 54.74068756103516,
+      "importance_std": 2.2572479254937163
+    },
+    {
+      "group": "Natural environment",
+      "n_features": 8,
+      "importance_mean": 40.95306396484375,
+      "importance_std": 2.60187318694092
+    },
+    {
+      "group": "Human / socioeconomic",
+      "n_features": 6,
+      "importance_mean": 37.31894073486328,
+      "importance_std": 2.7998707192141685
+    },
+    {
+      "group": "Multi-hazard intensity",
+      "n_features": 8,
+      "importance_mean": 2.794020080566406,
+      "importance_std": 1.3629115399180354
+    }
+  ],
+  "training_args": {
+    "csv": "debris_volume_model/training_data.csv",
+    "manifest": "debris_volume_model/feature_groups.json",
+    "out_dir": "debris_volume_model/trained_model",
+    "epochs": 400,
+    "batch_size": 64,
+    "lr": 0.0005,
+    "weight_decay": 0.0001,
+    "seed": 7,
+    "patience": 40,
+    "lr_patience": 8,
+    "device": "cuda",
+    "wandb_project": "hurricane-debris-projection",
+    "wandb_key": null,
+    "run_name": "production_seed7",
+    "log_branch_stats": true,
+    "no_wandb": false,
+    "log1p_target": false,
+    "sqrt_sample_weight": false,
+    "loss": "huber",
+    "tweedie_power": 1.5,
+    "h_inc": [
+      32,
+      16
+    ],
+    "h_dec": [
+      16,
+      8
+    ],
+    "h_free": [
+      32,
+      16
+    ],
+    "dropout": 0.1,
+    "output_activation": "softplus",
+    "smart_bias_init": false,
+    "grad_clip": 10.0
+  }
+}

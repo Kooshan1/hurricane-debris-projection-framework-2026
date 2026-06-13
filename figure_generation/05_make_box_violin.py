@@ -17,7 +17,7 @@ THIS_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(THIS_DIR))
 from _style import (DPI, DISPLAY_YEARS, FIG_WIDTH_DOUBLE, FONT_SIZE_LARGE,
                     FONT_SIZE_NORMAL, FONT_SIZE_SMALL, HURRICANE_COLORS,
-                    HURRICANE_LABELS, HURRICANES, MC_DIR_700,
+                    HURRICANE_LABELS, HURRICANES, MC_DIR,
                     REVISION_FIG_ROOT, YEAR_DISPLAY_TO_FILE, ensure_font,
                     save_figure)
 
@@ -30,7 +30,7 @@ def _load_long_df():
     for storm in HURRICANES:
         for disp_year in DISPLAY_YEARS:
             file_year = YEAR_DISPLAY_TO_FILE[disp_year]
-            csv = MC_DIR_700 / f"result_summary_{storm}_{file_year}_v7d_seeds0-999.csv"
+            csv = MC_DIR / f"result_summary_{storm}_{file_year}_seeds0-999.csv"
             if not csv.is_file():
                 continue
             df = pd.read_csv(csv)

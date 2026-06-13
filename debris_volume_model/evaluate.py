@@ -12,8 +12,8 @@ Loads the saved best checkpoint, recomputes test-set metrics, and runs:
 Outputs are written into the same directory as the checkpoint.
 
 Usage:
-    python evaluate.py --run-dir outputs/run_v1 \
-                       --csv data/engineered_input_<DATE>.csv \
+    python evaluate.py --run-dir debris_volume_model/trained_model \
+                       --csv debris_volume_model/training_data.csv \
                        --manifest data/feature_groups_<DATE>.json
 """
 from __future__ import annotations

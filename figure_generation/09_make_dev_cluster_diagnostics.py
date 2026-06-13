@@ -8,7 +8,7 @@ Produces two side-by-side panels at standardised journal quality:
       sub-classes scaled jointly" sweep).
 
 The source CSVs come from
-  debris_volume_model/outputs/run_v7d_hazard_interactions/evaluation/
+  debris_volume_model/trained_model/evaluation/
 and are produced by the model-evaluation pipeline. This script merely
 re-renders them into a clean, journal-quality figure consistent with
 the rest of the revision figures.
@@ -35,8 +35,8 @@ from _style import (DPI, FIG_WIDTH_DOUBLE, FIG_WIDTH_SINGLE,
                     OUTPUTS_ROOT, REVISION_FIG_ROOT, ensure_font)
 
 # Source data: ALE and joint-effect CSVs from the model-evaluation run.
-EVAL_DIR = OUTPUTS_ROOT.parent / "debris_volume_model" / "outputs" \
-           / "run_v7d_hazard_interactions" / "evaluation"
+EVAL_DIR = OUTPUTS_ROOT.parent / "debris_volume_model" \
+           / "trained_model" / "evaluation"
 OUT_DIR = REVISION_FIG_ROOT / "S-F7_dev_cluster_diagnostics"
 OUT_DIR.mkdir(parents=True, exist_ok=True)
 

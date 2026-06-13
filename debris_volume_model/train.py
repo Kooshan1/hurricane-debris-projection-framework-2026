@@ -7,11 +7,11 @@ trains a partially-monotone NN with non-negative output, and logs
 everything to W&B.
 
 Usage:
-    python train.py --csv engineered_input_2026_05_04.csv \
+    python train.py --csv grid_static_features.csv \
                     --manifest feature_groups_2026_05_04.json \
                     --out-dir ./outputs/run_<TIMESTAMP> \
                     [--epochs 300] [--batch-size 64] [--lr 5e-4] \
-                    [--wandb-project NSF_Debris_Project_Revision_Test] \
+                    [--wandb-project hurricane-debris-projection] \
                     [--run-name physics_v1] [--seed 98]
 """
 from __future__ import annotations
@@ -48,7 +48,7 @@ from model import PhysicsInformedDebrisNN, split_inputs
 def parse_args() -> argparse.Namespace:
     p = argparse.ArgumentParser()
     p.add_argument("--csv", type=str, required=True,
-                   help="path to engineered_input_<DATE>.csv")
+                   help="path to the training table (training_data.csv)")
     p.add_argument("--manifest", type=str, required=True,
                    help="path to feature_groups_<DATE>.json")
     p.add_argument("--out-dir", type=str, default="./outputs/run",
@@ -64,7 +64,7 @@ def parse_args() -> argparse.Namespace:
                    help="ReduceLROnPlateau patience")
     p.add_argument("--device", type=str, default="cuda")
     p.add_argument("--wandb-project", type=str,
-                   default="NSF_Debris_Project_Revision_Test")
+                   default="hurricane-debris-projection")
     p.add_argument("--wandb-key", type=str, default=None,
                    help="if set, wandb.login(key=...) is called")
     p.add_argument("--run-name", type=str, default=None)

@@ -13,7 +13,7 @@ HURRICANE_LABELS = ["Ike", "FEMA33", "FEMA36"]
 HURRICANE_IDS = {"Ike": "ike", "FEMA33": "fema33", "FEMA36": "fema36"}
 
 # Year mapping: display year -> file year
-YEAR_MAP = {2020: 2019, 2030: 2030, 2040: 2040}
+YEAR_MAP = {2020: 2020, 2030: 2030, 2040: 2040}
 
 
 def _ensure_font(font_name: str = "STIX Two Text", fallback: str = "STIXGeneral", size_pt: int = 8):
@@ -87,7 +87,7 @@ def _load_clr_values_from_csv(csv_path: Path) -> pd.DataFrame:
 
 def _build_long_dataframe(config: dict) -> pd.DataFrame:
     """Build a long-form DataFrame with columns: ['Year','Hurricane','CLR'].
-    Reads CSVs using the config template; for display year 2020 use file year 2019.
+    Reads CSVs using the config template; file years match display years.
     """
     records = []
     for year_display in [2020, 2030, 2040]:

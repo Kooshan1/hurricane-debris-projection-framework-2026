@@ -1,0 +1,10 @@
+scenario_label,storm,display_year,is_training_data,predicted_total_m3,gt_total_m3
+Hurricane Ike (2020),ike,2020,False,2279912.0,1933929.2796339141
+Hurricane Ike (2030),ike,2030,False,2413267.0,
+Hurricane Ike (2040),ike,2040,False,2591154.75,
+FEMA33 (2020),fema33,2020,False,2689342.25,
+FEMA33 (2030),fema33,2030,False,2799221.5,
+FEMA33 (2040),fema33,2040,False,2990164.5,
+FEMA36 (2020),fema36,2020,False,4490904.0,
+FEMA36 (2030),fema36,2030,False,4725101.0,
+FEMA36 (2040),fema36,2040,False,5010320.5,

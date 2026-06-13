@@ -1,23 +1,39 @@
-# Python
+# ---------------------------------------------------------------------------
+# Python / tooling
+# ---------------------------------------------------------------------------
 __pycache__/
 *.pyc
 .ipynb_checkpoints/
-
-# Experiment tracking
 wandb/
-
-# Input data (download from the DesignSafe Data Depot; see README.md)
-inputs/
-
-# Bulk generated outputs (regenerable; published copies live on DesignSafe).
-# Root-level outputs/ only -- debris_volume_model/outputs/ holds the tracked
-# trained-model artifacts and diagnostics.
-/outputs/
-debris_volume_model/outputs/v7d_runs/result_network_*.csv
-debris_volume_model/outputs/v7d_runs/result_summary_*.csv
-debris_volume_model/outputs/v7d_runs/random_fields_tmp/
-debris_volume_model/outputs/v7d_runs/derived_uncertainty/
 
 # OS noise
 Thumbs.db
 .DS_Store
+
+# ---------------------------------------------------------------------------
+# Data published in the DesignSafe Data Depot.
+# This repository ships CODE, CONFIG, and the TRAINED MODEL only; the datasets
+# below are downloaded from DesignSafe (see README.md "Data availability") and
+# are NOT duplicated here.
+# ---------------------------------------------------------------------------
+
+# Staging trees for the downloaded scenario inputs, predictions, hazard,
+# network, and land-cover data:
+/inputs/
+/outputs/
+
+# Model training table + static per-cell lookup (DesignSafe: Model_Training_Data):
+debris_volume_model/training_data.csv
+debris_volume_model/grid_static_features.csv
+
+# Monte Carlo samples, aggregates, and convergence tables
+# (DesignSafe: Monte_Carlo_Results):
+debris_volume_model/monte_carlo_results/result_network_*.csv
+debris_volume_model/monte_carlo_results/result_summary_*.csv
+debris_volume_model/monte_carlo_results/county_aggregate.csv
+debris_volume_model/monte_carlo_results/tract_summary.csv
+debris_volume_model/monte_carlo_results/link_summary.csv
+debris_volume_model/monte_carlo_results/convergence_summary*.csv
+debris_volume_model/monte_carlo_results/position_to_fid.csv
+debris_volume_model/monte_carlo_results/random_fields_tmp/
+debris_volume_model/monte_carlo_results/derived_uncertainty/

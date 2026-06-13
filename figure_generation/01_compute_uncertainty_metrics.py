@@ -25,10 +25,10 @@ import pandas as pd
 
 THIS_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(THIS_DIR))
-from _style import (HURRICANES, MC_DIR_700, YEAR_DISPLAY_TO_FILE,
+from _style import (HURRICANES, MC_DIR, YEAR_DISPLAY_TO_FILE,
                     DISPLAY_YEARS)
 
-DERIVED_DIR = MC_DIR_700 / "derived_uncertainty"
+DERIVED_DIR = MC_DIR / "derived_uncertainty"
 DERIVED_DIR.mkdir(parents=True, exist_ok=True)
 
 
@@ -52,7 +52,7 @@ def derive_clr_metrics():
     for storm in HURRICANES:
         for disp_year in DISPLAY_YEARS:
             file_year = YEAR_DISPLAY_TO_FILE[disp_year]
-            csv_in = MC_DIR_700 / f"result_summary_{storm}_{file_year}_v7d_seeds0-999.csv"
+            csv_in = MC_DIR / f"result_summary_{storm}_{file_year}_seeds0-999.csv"
             if not csv_in.is_file():
                 print(f"  [skip] {csv_in.name} not found")
                 continue
@@ -72,7 +72,7 @@ def derive_network_metrics():
     for storm in HURRICANES:
         for disp_year in DISPLAY_YEARS:
             file_year = YEAR_DISPLAY_TO_FILE[disp_year]
-            csv_in = MC_DIR_700 / f"result_network_{storm}_{file_year}_v7d_seeds0-999.csv"
+            csv_in = MC_DIR / f"result_network_{storm}_{file_year}_seeds0-999.csv"
             if not csv_in.is_file():
                 print(f"  [skip] {csv_in.name} not found")
                 continue

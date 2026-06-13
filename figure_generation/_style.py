@@ -24,21 +24,17 @@ warnings.filterwarnings("ignore", message=".*invalid value encountered.*")
 # Project paths (relative to NSF_Debris_Project/)
 # ----------------------------------------------------------------------------
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
-INPUTS_ROOT = PROJECT_ROOT.parent / "inputs"
+INPUTS_ROOT = PROJECT_ROOT / "inputs"
 OUTPUTS_ROOT = PROJECT_ROOT / "outputs"
 
 TRACT_SHP = INPUTS_ROOT / "debris_impact_data" / "Tracts_Galveston_County_Without_Bolivar_Peninsula.shp"
 COUNTY_SHP = INPUTS_ROOT / "debris_impact_data" / "galveston_county_border.shp"
-GRID_SHP = INPUTS_ROOT / "shapefiles" / "Grid_250_Without_Bolivar_Peninsula.shp"
 
-NETWORK_SHP = OUTPUTS_ROOT / "debris_impact_output" / "monte_carlo_result" / "Network_Condition_results.shp"
 
-# v7d override: point the "MC_DIR_700" symbol at the v7d 1000-sample MC outputs.
-# The variable name is kept for drop-in compatibility with the original scripts.
-MC_DIR_700 = PROJECT_ROOT / "debris_volume_model" / "outputs" / "v7d_runs"
-MC_DIR_100 = OUTPUTS_ROOT / "debris_impact_output" / "monte_carlo_result" / "old_results"
-# Suffix used in v7d filenames: result_summary_<storm>_<file_year>_v7d_seeds0-999.csv
-MC_FILENAME_SUFFIX = "v7d_seeds0-999"
+# Published 1,000-sample Monte Carlo result tables.
+MC_DIR = PROJECT_ROOT / "debris_volume_model" / "monte_carlo_results"
+# Suffix used in the result filenames: result_summary_<storm>_<year>_seeds0-999.csv
+MC_FILENAME_SUFFIX = "seeds0-999"
 
 # Paper figures are written under outputs/figure/paper_figures/.
 REVISION_FIG_ROOT = OUTPUTS_ROOT / "figure" / "paper_figures"
@@ -72,10 +68,9 @@ LEGEND_TICK_SIZE = 14          # pt at the 5 in render width (~7 pt placed, == p
 # Map rotation (degrees clockwise) applied to individual map images before merging.
 MAP_ROTATION_DEG = 25
 
-# Match the file year vs display year mapping used in clr_summary_plots.py
-# (display year 2020 corresponds to the 2019 simulation files on disk).
+# Scenario years (file names and display labels are identical).
 DISPLAY_YEARS = (2020, 2030, 2040)
-YEAR_DISPLAY_TO_FILE = {2020: 2019, 2030: 2030, 2040: 2040}
+YEAR_DISPLAY_TO_FILE = {2020: 2020, 2030: 2030, 2040: 2040}
 HURRICANES = ("ike", "fema33", "fema36")
 HURRICANE_LABELS = {"ike": "Ike", "fema33": "FEMA33", "fema36": "FEMA36"}
 
@@ -241,7 +236,7 @@ def render_choropleth_map(
     figsize defaults to (6,6) to match the original paper figure generator
     (PlotGenerator.py GENERAL_SETTINGS). Do NOT change this default — it
     controls the visual weight of polygon edges and must stay consistent
-    with the 36 base paper maps in generated_maps_v7d/.
+    with the 36 base paper maps in generated_maps/.
 
     If a pre-built ``norm`` is passed (e.g. a matplotlib PowerNorm used to
     stretch a skewed, washed-out value range so year-to-year differences are

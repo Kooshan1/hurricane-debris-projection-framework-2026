@@ -35,7 +35,7 @@ THIS_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(THIS_DIR))
 from _style import (DPI, FIG_WIDTH_DOUBLE, FIG_WIDTH_SINGLE,
                     FONT_SIZE_LARGE, FONT_SIZE_NORMAL, FONT_SIZE_SMALL,
-                    HURRICANE_LABELS, HURRICANES, MC_DIR_700, OUTPUTS_ROOT,
+                    HURRICANE_LABELS, HURRICANES, MC_DIR, OUTPUTS_ROOT,
                     REVISION_FIG_ROOT, YEAR_DISPLAY_TO_FILE, ensure_font,
                     save_figure)
 
@@ -44,9 +44,9 @@ OUT_DIR.mkdir(parents=True, exist_ok=True)
 
 
 def _county_mean_surge(storm: str, file_year: int) -> float:
-    """Mean surge depth (m) over inundated cells, from V14_physics_v7d shp."""
+    """Mean surge depth (m) over inundated cells, from debris_volume shp."""
     shp = (OUTPUTS_ROOT / "final_debris_volume_output" / storm
-           / str(file_year) / "V14_physics_v7d_predictions.shp")
+           / str(file_year) / "debris_volume_predictions.shp")
     if not shp.is_file():
         return float("nan")
     g = gpd.read_file(shp, columns=["SD"])
@@ -56,9 +56,9 @@ def _county_mean_surge(storm: str, file_year: int) -> float:
 
 
 def _total_debris(storm: str, file_year: int) -> float:
-    """Total debris volume (m^3), from V14_physics_v7d (calibrated)."""
+    """Total debris volume (m^3), from debris_volume (calibrated)."""
     csv = (OUTPUTS_ROOT / "final_debris_volume_output" / storm
-           / str(file_year) / "V14_physics_v7d_predictions.csv")
+           / str(file_year) / "debris_volume_predictions.csv")
     if csv.is_file():
         df = pd.read_csv(csv)
         return float(np.nansum(df["pred_m3"].astype(float).values))
@@ -71,7 +71,7 @@ def _total_debris(storm: str, file_year: int) -> float:
 
 def _county_mean_clr(storm: str, file_year: int) -> float:
     """County-wide mean CLR across all MC samples and all tracts."""
-    csv = MC_DIR_700 / f"result_summary_{storm}_{file_year}_v7d_seeds0-999.csv"
+    csv = MC_DIR / f"result_summary_{storm}_{file_year}_seeds0-999.csv"
     if not csv.is_file():
         return float("nan")
     df = pd.read_csv(csv)

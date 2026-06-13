@@ -22,7 +22,7 @@ sys.path.insert(0, str(THIS_DIR))
 from _style import (DISPLAY_YEARS, DPI, FIG_WIDTH_DOUBLE, FIG_WIDTH_SINGLE,
                     FONT_SIZE_LARGE, FONT_SIZE_NORMAL, FONT_SIZE_SMALL,
                     HURRICANE_COLORS, HURRICANE_LABELS, HURRICANES,
-                    MC_DIR_700, OUTPUTS_ROOT, REVISION_FIG_ROOT,
+                    MC_DIR, OUTPUTS_ROOT, REVISION_FIG_ROOT,
                     YEAR_DISPLAY_TO_FILE, ensure_font, save_figure)
 
 OUT_DIR = REVISION_FIG_ROOT / "M-F2_trajectory"
@@ -38,7 +38,7 @@ def _total_debris_per_scenario():
         for disp_year in DISPLAY_YEARS:
             file_year = YEAR_DISPLAY_TO_FILE[disp_year]
             csv = (OUTPUTS_ROOT / "final_debris_volume_output" / storm
-                   / str(file_year) / "V14_physics_v7d_predictions.csv")
+                   / str(file_year) / "debris_volume_predictions.csv")
             if not csv.is_file():
                 shp = csv.with_suffix(".shp")
                 if shp.is_file():
@@ -62,7 +62,7 @@ def _mean_clr_with_band():
     for storm in HURRICANES:
         for disp_year in DISPLAY_YEARS:
             file_year = YEAR_DISPLAY_TO_FILE[disp_year]
-            csv = MC_DIR_700 / f"result_summary_{storm}_{file_year}_v7d_seeds0-999.csv"
+            csv = MC_DIR / f"result_summary_{storm}_{file_year}_seeds0-999.csv"
             if not csv.is_file():
                 continue
             df = pd.read_csv(csv)

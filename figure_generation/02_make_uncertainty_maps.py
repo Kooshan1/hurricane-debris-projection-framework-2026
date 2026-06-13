@@ -2,8 +2,8 @@
 Step 2: Uncertainty maps (CLR, road-closure) for supplementary materials.
 
 All CLR maps go to supplementary only (M-F1 removed from main paper — the
-baseline CLR maps are already in the original paper's Fig. 6 and the v7d
-regenerated maps in generated_maps_v7d/).
+baseline CLR maps are already covered by the map-style figures in
+generated_maps/).
 
 Layout:
     S-F2_supplementary/         <- Individual maps for all metrics × scenarios
@@ -22,14 +22,14 @@ import pandas as pd
 THIS_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(THIS_DIR))
 from _style import (DPI, DISPLAY_YEARS, HURRICANES, HURRICANE_LABELS,
-                    MC_DIR_700, REVISION_FIG_ROOT, YEAR_DISPLAY_TO_FILE,
+                    MC_DIR, REVISION_FIG_ROOT, YEAR_DISPLAY_TO_FILE,
                     load_county_gdf, load_network_gdf, load_tract_gdf,
                     make_merged_map_panel, register_custom_cmaps,
                     render_choropleth_map, save_horizontal_legend,
                     MidpointNormalize)
 import matplotlib.colors as mcolors
 
-DERIVED_DIR = MC_DIR_700 / "derived_uncertainty"
+DERIVED_DIR = MC_DIR / "derived_uncertainty"
 
 OUT_SF2 = REVISION_FIG_ROOT / "S-F2_supplementary"
 OUT_MERGED = OUT_SF2 / "merged"

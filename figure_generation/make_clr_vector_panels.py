@@ -33,12 +33,12 @@ import matplotlib.colors as mcolors
 THIS_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(THIS_DIR))
 from _style import (DISPLAY_YEARS, HURRICANES, HURRICANE_LABELS,
-                    YEAR_DISPLAY_TO_FILE, MC_DIR_700, REVISION_FIG_ROOT,
+                    YEAR_DISPLAY_TO_FILE, MC_DIR, REVISION_FIG_ROOT,
                     FIG_WIDTH_DOUBLE, FONT_SIZE_SMALL, MAP_ROTATION_DEG,
                     load_county_gdf, load_tract_gdf, boundary_extent,
                     register_custom_cmaps, ensure_font, MidpointNormalize)
 
-DERIVED_DIR = MC_DIR_700 / "derived_uncertainty"
+DERIVED_DIR = MC_DIR / "derived_uncertainty"
 OUT_DIR = REVISION_FIG_ROOT / "S-F2_vector"
 SENS_DIR = REVISION_FIG_ROOT / "S-F8_sensitivity"   # holds sensitivity_data_{storm}.csv
 SENS_VLIM = 1.0

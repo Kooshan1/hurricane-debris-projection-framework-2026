@@ -1,23 +1,18 @@
 """
-For a chosen trained model + scaler + manifest + calibration constant,
-re-predict debris volume on the FULL 250-m grid for each of the nine
-storm * year forward scenarios and save the result as a shapefile that
-matches the format of the original NN's outputs:
+For the trained model + scaler + manifest + calibration constant, predict
+debris volume on the FULL 250 m grid for each of the nine storm x year
+scenarios and save the result as a shapefile + CSV pair:
 
-    final_debris_volume_output/<storm>/<year>/V13_NN_all_parameters_nn_model_epoch_100_predictions.{shp,csv}
+    outputs/final_debris_volume_output/<storm>/<year>/<output_prefix>_predictions.{shp,csv}
 
-The new outputs go to the *parallel* directory:
-
-    final_debris_volume_output/<storm>/<year>/<output_prefix>_predictions.{shp,csv}
-
-so the existing files are not overwritten.  The downstream dispersion
-model and network analysis can then be re-run against the new
-prediction shapefiles.
+The downstream dispersion model and network analysis are then run against
+these prediction shapefiles.
 
 Usage:
-    python generate_scenario_shapefiles.py --run-dir outputs/run_v8a \
-        --manifest feature_groups_v3.json --output-prefix V14_physics_v8a \
-        [--no-calibrate]
+    python debris_volume_model/generate_scenario_shapefiles.py \
+        --run-dir debris_volume_model/trained_model \
+        --manifest debris_volume_model/feature_groups.json \
+        --output-prefix debris_volume [--no-calibrate]
 """
 from __future__ import annotations
 
@@ -39,12 +34,12 @@ from model import PhysicsInformedDebrisNN, split_inputs
 PROJECT_ROOT = THIS_DIR.parent
 INPUT_PARAMS_DIR = PROJECT_ROOT / "outputs" / "final_input_for_debris_volume_model"
 OUTPUT_DIR = PROJECT_ROOT / "outputs" / "final_debris_volume_output"
-ENGINEERED_CSV = THIS_DIR / "engineered_input_2026_05_04.csv"
+ENGINEERED_CSV = THIS_DIR / "grid_static_features.csv"
 
 SCENARIOS = [
-    ("ike",    2019), ("ike",    2030), ("ike",    2040),
-    ("fema33", 2019), ("fema33", 2030), ("fema33", 2040),
-    ("fema36", 2019), ("fema36", 2030), ("fema36", 2040),
+    ("ike",    2020), ("ike",    2030), ("ike",    2040),
+    ("fema33", 2020), ("fema33", 2030), ("fema33", 2040),
+    ("fema36", 2020), ("fema36", 2030), ("fema36", 2040),
 ]
 # Optional: include the in-sample sanity scenario
 SANITY_SCENARIO = ("ike", 2008)
@@ -99,7 +94,7 @@ def engineer_scenario(df_raw, dist_map):
     tbfa = df["TBFA"].astype(float).values
     df["mean_bldg_size_m2"] = np.where(nb > 0, tbfa / np.maximum(nb, 1.0), 0.0)
     df["dist_to_coast_m"] = df["FID"].map(dist_map).astype(float)
-    # v7d: hazard x building interaction features (computed on the fly so v7d
+    # hazard x building interaction features (computed on the fly so the model
     # can score per-scenario CSVs without needing to pre-edit them)
     for haz in ("SD", "WH", "MF"):
         col = f"{haz}_NumB"
@@ -169,7 +164,7 @@ def main():
         full = full.merge(valid[["FID", "pred_m3"]], on="FID", how="left")
         full["pred_m3"] = full["pred_m3"].fillna(0.0)
         # Also include the original 30 raw input columns + geometry so the
-        # output is a drop-in replacement for V13_NN_*.shp.
+        # output column layout matches the per-scenario input shapefiles.
         full = full.merge(df_raw, on="FID", how="left", suffixes=("", "_dup"))
         full = full.drop(columns=[c for c in full.columns if c.endswith("_dup")])
         # WKT geometry -> Shapely
