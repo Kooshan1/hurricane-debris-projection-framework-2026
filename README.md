@@ -20,8 +20,12 @@ County, Texas.
 Input datasets, the supplementary document, and example outputs are published
 in the NHERI DesignSafe Data Depot:
 
-> **DesignSafe Data Depot DOI/URL: _to be inserted upon publication of the
-> data repository_**
+> **DesignSafe Data Depot: https://doi.org/10.17603/ds2-s6ha-b807**
+>
+> Cite as: Amini, K., M. Meads, J. Padgett, W. Highfield, C. Gonzalez,
+> B. Pachev, C. Dawson (2026). *Projected Hurricane-Induced Debris Risk
+> under Coupled Sea-Level Rise and Land-Cover Change: Data and Models for
+> Galveston County, Texas.* DesignSafe-CI. https://doi.org/10.17603/ds2-s6ha-b807
 
 This repository ships the **code, configuration, and trained model** only; the
 datasets it consumes are published in the DesignSafe Data Depot and are **not
